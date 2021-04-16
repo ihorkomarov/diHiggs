@@ -9,6 +9,7 @@
 #include "UHH2/common/include/NSelections.h"
 #include "UHH2/diHiggs/include/diHiggsSelections.h"
 #include "UHH2/diHiggs/include/muonSeedsHists.h"
+#include "UHH2/diHiggs/include/L1MuonSeedsHists.h"
 
 using namespace std;
 using namespace uhh2;
@@ -37,7 +38,7 @@ private:
     
     // store the Hists collection as member variables. Again, use unique_ptr to avoid memory leaks.
     std::unique_ptr<Hists> muon_seeds;
-
+    std::unique_ptr<Hists> muon_L1;
 };
 
 
@@ -73,6 +74,7 @@ diHiggsModule::diHiggsModule(Context & ctx){
 
     // 3. Set up Hists classes:
     muon_seeds.reset(new muonSeedsHists(ctx, "MuonSeeds"));
+    muon_L1.reset(new muonSeedsHists(ctx, "L1MuonSeedsHists"));
 }
 
 
@@ -98,6 +100,7 @@ bool diHiggsModule::process(Event & event) {
     // 2. test selections and fill histograms
 
     muon_seeds->fill(event);
+    muon_L1->fill(event);
     
     // currently we want to collect all event thus always true 
     return true;
