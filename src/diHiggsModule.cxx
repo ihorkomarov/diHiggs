@@ -8,7 +8,7 @@
 #include "UHH2/common/include/ElectronHists.h"
 #include "UHH2/common/include/NSelections.h"
 #include "UHH2/diHiggs/include/diHiggsSelections.h"
-#include "UHH2/diHiggs/include/diHiggsHists.h"
+#include "UHH2/diHiggs/include/muonSeedsHists.h"
 
 using namespace std;
 using namespace uhh2;
@@ -72,7 +72,7 @@ diHiggsModule::diHiggsModule(Context & ctx){
     // dijet_sel.reset(new DijetSelection()); // see diHiggsSelections
 
     // 3. Set up Hists classes:
-    muon_seeds.reset(new diHiggsHists(ctx, "MuonSeeds"));
+    muon_seeds.reset(new muonSeedsHists(ctx, "MuonSeeds"));
 }
 
 

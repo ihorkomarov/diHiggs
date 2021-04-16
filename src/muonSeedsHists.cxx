@@ -1,4 +1,4 @@
-#include "UHH2/diHiggs/include/diHiggsHists.h"
+#include "UHH2/diHiggs/include/muonSeedsHists.h"
 #include "UHH2/core/include/Event.h"
 
 #include "TH1F.h"
@@ -9,7 +9,7 @@ using namespace std;
 using namespace uhh2;
 using namespace uhh2examples;
 
-diHiggsHists::diHiggsHists(Context & ctx, const string & dirname): Hists(ctx, dirname){
+muonSeedsHists::muonSeedsHists(Context & ctx, const string & dirname): Hists(ctx, dirname){
   // book all histograms here
 
   // leptons
@@ -18,7 +18,7 @@ diHiggsHists::diHiggsHists(Context & ctx, const string & dirname): Hists(ctx, di
 }
 
 
-void diHiggsHists::fill(const Event & event){
+void muonSeedsHists::fill(const Event & event){
   // fill the histograms. Please note the comments in the header file:
   // 'hist' is used here a lot for simplicity, but it will be rather
   // slow when you have many histograms; therefore, better
@@ -33,4 +33,4 @@ void diHiggsHists::fill(const Event & event){
   }  
 }
 
-diHiggsHists::~diHiggsHists(){}
+muonSeedsHists::~muonSeedsHists(){}
