@@ -74,7 +74,7 @@ diHiggsModule::diHiggsModule(Context & ctx){
 
     // 3. Set up Hists classes:
     muon_seeds.reset(new muonSeedsHists(ctx, "MuonSeeds"));
-    muon_L1.reset(new muonSeedsHists(ctx, "L1MuonSeedsHists"));
+    muon_L1.reset(new L1MuonSeedsHists(ctx, "L1MuonSeedsHists"));
 }
 
 

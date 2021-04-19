@@ -13,6 +13,7 @@ L1MuonSeedsHists::L1MuonSeedsHists(Context & ctx, const string & dirname): Hists
   // book all histograms here
 
   // leptons
+  book<TH1F>("N_L1mu", "N^{#mu}", 10, 0, 10);
   book<TH1F>("pt_mu", "p_{T}^{#mu} [GeV/c]", 40, 0, 200);
   book<TH1F>("eta_mu", "#eta^{#mu}", 40, -2.1, 2.1);
 }
@@ -26,6 +27,9 @@ void L1MuonSeedsHists::fill(const Event & event){
   
   // Don't forget to always use the weight when filling.
   double weight = event.weight;
+
+  int NL1muons = event.L1M_seeds->size();
+  hist("N_L1mu")->Fill(NL1muons, weight);
   
   for (const L1Muon & thismuL1 : *event.L1M_seeds){
       hist("pt_mu")->Fill(thismuL1.pt(), weight);
