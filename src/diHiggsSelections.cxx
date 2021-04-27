@@ -22,4 +22,28 @@ bool DijetSelection::passes(const Event & event){
     return third_jet_frac < third_frac_max;
 }
 
+StSelection::StSelection(double st_min_, double st_max_):st_min(st_min_), st_max(st_max_) {}
+bool StSelection::passes(const Event & event) {
+  auto met = event.met->pt();
 
+  bool pass = false;
+  double st = 0.0;
+  double st_jets = 0.0;
+  double st_lep = 0.0;
+
+  for(const auto & jet : *event.jets){
+    st_jets += jet.pt();
+  }
+  for(const auto & electron : *event.electrons){
+    st_lep += electron.pt();
+  }
+  for(const auto & muon : *event.muons){
+    st_lep += muon.pt();
+  }
+
+  st = st_lep + st_jets + met;
+
+  pass = st > st_min && (st_max < 0 || st < st_max);
+
+  return pass;
+}

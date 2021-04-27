@@ -15,7 +15,7 @@ L1MuonSeedsHists::L1MuonSeedsHists(Context & ctx, const string & dirname): Hists
   // leptons
   book<TH1F>("N_L1mu", "N^{#mu}", 10, 0, 10);
   book<TH1F>("pt_mu", "p_{T}^{#mu} [GeV/c]", 40, 0, 200);
-  book<TH1F>("eta_mu", "#eta^{#mu}", 40, -2.1, 2.1);
+  book<TH1F>("eta_mu", "#eta^{#mu}", 40, -4, 4);
 }
 
 

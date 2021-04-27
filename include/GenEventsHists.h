@@ -11,13 +11,13 @@ namespace uhh2examples {
  * many histograms. Therefore, it is recommended to use histogram
  * pointers as member data instead, like in 'common/include/ElectronHists.h'.
  */
-class muonSeedsHists: public uhh2::Hists {
+class GenEventsHists: public uhh2::Hists {
 public:
     // use the same constructor arguments as Hists for forwarding:
-    muonSeedsHists(uhh2::Context & ctx, const std::string & dirname);
+    GenEventsHists(uhh2::Context & ctx, const std::string & dirname);
 
     virtual void fill(const uhh2::Event & ev) override;
-    virtual ~muonSeedsHists();
+    virtual ~GenEventsHists();
 };
 
 }

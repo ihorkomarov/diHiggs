@@ -18,5 +18,12 @@ private:
     float dphi_min, third_frac_max;
 };
 
+class StSelection : public uhh2::Selection{
+  public:
+    explicit StSelection(double st_min = 0., double st_max = -1);
+    virtual bool passes(const uhh2::Event & event);
+  private:
+    double st_min, st_max;
+  };
 
 }
