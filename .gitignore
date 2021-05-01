@@ -1,2 +1,6 @@
 *.root
 obj/*
+config/*
+!config/*.xml
+!config/*.dtd
+*.sh
