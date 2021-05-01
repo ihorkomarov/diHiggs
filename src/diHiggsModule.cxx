@@ -74,7 +74,7 @@ diHiggsModule::diHiggsModule(Context & ctx){
     // Object IDs
     //cout << "Year: " << year << endl;
     JetId jet_pfid = JetPFID(JetPFID::WP_TIGHT_CHS);
-    Ele_Id = AndId<Electron>(ElectronID_Fall17_tight, PtEtaCut(20.0, 3.0));
+    Ele_Id = AndId<Electron>(ElectronID_Fall17_tight, PtEtaCut(25.0, 3.0));
     if (year == Year::is2016v2) Mu_Id = AndId<Muon>(MuonID(Muon::Tight), PtEtaCut(25.0, 3.0), MuonIso(0.15));
     else                        Mu_Id = AndId<Muon>(MuonID(Muon::CutBasedIdTight), PtEtaCut(25.0, 3.0), MuonID(Muon::PFIsoTight));
 
