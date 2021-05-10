@@ -8,7 +8,7 @@
 //hists
 #include "UHH2/common/include/ElectronHists.h"
 #include "UHH2/common/include/MuonHists.h"
-#include "UHH2/diHiggs/include/GenEventsHists.h"
+#include "UHH2/diHiggs/include/offlineObjectsHists.h"
 #include "UHH2/diHiggs/include/L1MuonSeedsHists.h"
 //Selections
 #include "UHH2/common/include/NSelections.h"
@@ -32,12 +32,10 @@ public:
 private:
     
     std::unique_ptr<CommonModules> common;
-
-    
     std::unique_ptr<Hists> noCuts;
-    std::unique_ptr<Hists> n1Lepton, n1Electron, n1Muon;
-    std::unique_ptr<Hists> n3Jet_singleEl, n3Jet_singleMu, n4Jet_singleEl, n4Jet_singleMu, n3jet_singleL, n4jet_singleL;
-    std::unique_ptr<Hists> n1B_singleEl, n1B_singleMu, n1B_singleL, n2B_singleEl, n2B_singleMu, n2B_singleL;
+    std::unique_ptr<Hists> n1Electron, n1Muon;
+    std::unique_ptr<Hists> n3jet_singleE,n3jet_singleM, n4jet_singleE, n4jet_singleM;
+    std::unique_ptr<Hists> n1B_singleE, n1B_singleM, n2B_singleE, n2B_singleM;
 
     // Define Selections
     std::unique_ptr<Selection> electron_sel, muon_sel, noElectron_sel, noMuon_sel;
@@ -46,6 +44,7 @@ private:
 
     ElectronId Ele_Id;
     MuonId Mu_Id;
+    // TauId Tau_Id;
     JetId Jet_Id;
 
     BTag::algo btag_algo;
@@ -69,16 +68,17 @@ diHiggsModule::diHiggsModule(Context & ctx){
         cout << " " << kv.first << " = " << kv.second << endl;
     }
     
-    Year year = extract_year(ctx);
+    double ptCut = 10;
+    double etaCut = 4;
+    
+    //Year year = extract_year(ctx);
 
     // Object IDs
     //cout << "Year: " << year << endl;
     JetId jet_pfid = JetPFID(JetPFID::WP_TIGHT_CHS);
-    Ele_Id = AndId<Electron>(ElectronID_Fall17_tight, PtEtaCut(25.0, 3.0));
-    if (year == Year::is2016v2) Mu_Id = AndId<Muon>(MuonID(Muon::Tight), PtEtaCut(25.0, 3.0), MuonIso(0.15));
-    else                        Mu_Id = AndId<Muon>(MuonID(Muon::CutBasedIdTight), PtEtaCut(25.0, 3.0), MuonID(Muon::PFIsoTight));
-
-    Jet_Id = AndId<Jet>(jet_pfid, PtEtaCut(30.0, 3.0));
+    Ele_Id = AndId<Electron>(ElectronID_Fall17_tight, PtEtaCut(ptCut, etaCut));
+    Mu_Id = AndId<Muon>(MuonID(Muon::CutBasedIdTight), PtEtaCut(ptCut, etaCut), MuonID(Muon::PFIsoTight));
+    Jet_Id = AndId<Jet>(jet_pfid, PtEtaCut(ptCut, etaCut));
 
     // BTagging
     btag_algo = BTag::DEEPJET;
@@ -109,26 +109,22 @@ diHiggsModule::diHiggsModule(Context & ctx){
 
 
     // 3. Set up Hists classes:
-    noCuts.reset(new GenEventsHists(ctx, "NoCuts"));
-    n1Lepton.reset(new GenEventsHists(ctx, "1Lepton"));
-    n1Electron.reset(new GenEventsHists(ctx, "1Electron"));
-    n1Muon.reset(new GenEventsHists(ctx, "1Muon"));
+    noCuts.reset(new offlineObjectsHists(ctx, "NoCuts"));
 
-    n3jet_singleL.reset(new GenEventsHists(ctx, "3Jet_1L"));
-    n3Jet_singleEl.reset(new GenEventsHists(ctx, "3Jet_1El"));
-    n3Jet_singleMu.reset(new GenEventsHists(ctx, "3Jet_1Mu"));
+    n1Electron.reset(new offlineObjectsHists(ctx, "1Electron"));
+    n1Muon.reset(new offlineObjectsHists(ctx, "1Muon"));
 
-    n4jet_singleL.reset(new GenEventsHists(ctx, "4Jet_1L"));
-    n4Jet_singleEl.reset(new GenEventsHists(ctx, "4Jet_1El"));
-    n4Jet_singleMu.reset(new GenEventsHists(ctx, "4Jet_1Mu"));
+    n3jet_singleE.reset(new offlineObjectsHists(ctx, "3Jet_1E"));
+    n3jet_singleM.reset(new offlineObjectsHists(ctx, "3Jet_1M"));
 
-    n1B_singleL.reset(new GenEventsHists(ctx, "1B_1L"));
-    n1B_singleEl.reset(new GenEventsHists(ctx, "1B_1El"));
-    n1B_singleMu.reset(new GenEventsHists(ctx, "1B_1Mu"));
+    n4jet_singleE.reset(new offlineObjectsHists(ctx, "4Jet_1E"));
+    n4jet_singleM.reset(new offlineObjectsHists(ctx, "4Jet_1M"));
 
-    n2B_singleL.reset(new GenEventsHists(ctx, "2B_1L"));
-    n2B_singleEl.reset(new GenEventsHists(ctx, "2B_1El"));
-    n2B_singleMu.reset(new GenEventsHists(ctx, "2B_1Mu"));
+    n1B_singleE.reset(new offlineObjectsHists(ctx, "1B_1E"));
+    n1B_singleM.reset(new offlineObjectsHists(ctx, "1B_1M"));
+
+    n2B_singleE.reset(new offlineObjectsHists(ctx, "2B_1E"));
+    n2B_singleM.reset(new offlineObjectsHists(ctx, "2B_1M"));
 }
 
 
@@ -157,49 +153,43 @@ bool diHiggsModule::process(Event & event) {
     // event ID ausgeben
     bool electronCategory = electron_sel->passes(event) && noMuon_sel->passes(event); // N_e == 1, N_mu == 0
     bool muonCategory = muon_sel->passes(event) && noElectron_sel->passes(event); // N_e == 0, N_mu == 1
-    bool singleLeptonCategory = !electronCategory && !muonCategory;
-    if(singleLeptonCategory) return false; 
-    n1Lepton->fill(event);
+    bool singleLeptonCategory = electronCategory || muonCategory;
+
+    if(!singleLeptonCategory) return false; 
 
     if(electronCategory)
         n1Electron->fill(event);
-
     else if(muonCategory)
         n1Muon->fill(event);
 
     if(!n3jet_sel->passes(event)) return false;
-    
-    n3jet_singleL->fill(event);
+
     if(electronCategory)
-        n3Jet_singleEl->fill(event);  
+        n3jet_singleE->fill(event);
     else if(muonCategory)
-        n3Jet_singleMu->fill(event);
+        n3jet_singleM->fill(event);
 
 
     if(!n4jet_sel->passes(event)) return false;
 
-    n4jet_singleL->fill(event);    
     if(electronCategory)
-        n4Jet_singleEl->fill(event);
+        n4jet_singleE->fill(event);
     else if(muonCategory)
-        n4Jet_singleMu->fill(event);
+        n4jet_singleM->fill(event);  
 
     if(!n1B_sel->passes(event)) return false;
 
-    n1B_singleL->fill(event);
     if(electronCategory)
-        n1B_singleEl->fill(event);
+        n1B_singleE->fill(event);
     else if(muonCategory)
-        n1B_singleMu->fill(event);
+        n1B_singleM->fill(event);  
     
     if(!n2B_sel->passes(event)) return false;
 
-    n2B_singleL->fill(event);
     if(electronCategory)
-        n2B_singleEl->fill(event);
+        n2B_singleE->fill(event);
     else if(muonCategory)
-        n2B_singleMu->fill(event);
-    
+        n2B_singleM->fill(event);  
 
     return true;
 }
