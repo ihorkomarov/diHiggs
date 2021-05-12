@@ -62,7 +62,10 @@ diHiggsModule::diHiggsModule(Context & ctx){
         cout << " " << kv.first << " = " << kv.second << endl;
     }
     
-    double ptCut = 10;
+    /// DEFINE Min Pt
+    int ptCut_Mu = 24;
+    int ptCut_Jet = 30;
+    int ptCut_El = 10;
     double etaCut = 4;
     
     //Year year = extract_year(ctx);
@@ -70,9 +73,9 @@ diHiggsModule::diHiggsModule(Context & ctx){
     // Object IDs
     //cout << "Year: " << year << endl;
     JetId jet_pfid = JetPFID(JetPFID::WP_TIGHT_CHS);
-    Ele_Id = AndId<Electron>(ElectronID_Fall17_tight, PtEtaCut(ptCut, etaCut));
-    Mu_Id = AndId<Muon>(MuonID(Muon::CutBasedIdTight), PtEtaCut(ptCut, etaCut), MuonID(Muon::PFIsoTight));
-    Jet_Id = AndId<Jet>(jet_pfid, PtEtaCut(ptCut, etaCut));
+    Ele_Id = AndId<Electron>(ElectronID_Fall17_tight, PtEtaCut(ptCut_El, etaCut));
+    Mu_Id = AndId<Muon>(MuonID(Muon::CutBasedIdTight), PtEtaCut(ptCut_Mu, etaCut), MuonID(Muon::PFIsoTight));
+    Jet_Id = AndId<Jet>(jet_pfid, PtEtaCut(ptCut_Jet, etaCut));
 
 
     // set common
