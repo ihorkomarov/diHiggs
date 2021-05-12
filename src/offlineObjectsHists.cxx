@@ -11,10 +11,12 @@ using namespace uhh2examples;
 
 offlineObjectsHists::offlineObjectsHists(Context & ctx, const string & dirname): Hists(ctx, dirname){
   int etaRange = 4;
+  int ptMin = 0;
+  int ptMax = 2000;
   book<TH1F>("N_jets", "N_{jets}", 20, 0, 20);  
   book<TH1F>("N_PU", "N_{PU}", 100, 0, 100);  
   eta_jet1 = book<TH1F>("eta_jet1", "#eta^{jet 1}", 40, -etaRange, etaRange);
-  pt_jet1 = book<TH1F>("pt_jet1", "p_{T}^{jet 1}", 40, 10, 250);
+  pt_jet1 = book<TH1F>("pt_jet1", "p_{T}^{jet 1}", 40, ptMin, ptMax);
   book<TH1F>("eta_jet2", "#eta^{jet 2}", 40, -etaRange, etaRange);
   book<TH1F>("eta_jet3", "#eta^{jet 3}", 40, -etaRange, etaRange);
   book<TH1F>("eta_jet4", "#eta^{jet 4}", 40, -etaRange, etaRange);
@@ -23,19 +25,14 @@ offlineObjectsHists::offlineObjectsHists(Context & ctx, const string & dirname):
   // leptons
   //mu
   book<TH1F>("N_mu", "N^{#mu}", 10, 0, 10);
-  book<TH1F>("pt_mu", "p_{T}^{#mu} [GeV/c]", 40, 0, 250);
+  book<TH1F>("pt_mu", "p_{T}^{#mu} [GeV/c]", 40, ptMin, ptMax);
   book<TH1F>("eta_mu", "#eta^{#mu}", 40, -etaRange, etaRange);
   //book<TH1F>("reliso_mu", "#mu rel. Iso", 40, 0, 0.5);
   //e
-  book<TH1F>("N_e", "N^{#e}", 10, 0, 10);
-  book<TH1F>("pt_e", "p_{T}^{#e} [GeV/c]", 40, 0, 250);
-  book<TH1F>("eta_e", "#eta^{#e}", 40, -etaRange, etaRange);
+  // book<TH1F>("N_e", "N^{#e}", 10, 0, 10);
+  // book<TH1F>("pt_e", "p_{T}^{#e} [GeV/c]", 40, ptMin, ptMax);
+  // book<TH1F>("eta_e", "#eta^{#e}", 40, -etaRange, etaRange);
   //book<TH1F>("reliso_e", "#e rel. Iso", 40, 0, 0.5);
-  //ph
-  // book<TH1F>("N_ph", "N^{#ph}", 10, 0, 10);
-  // book<TH1F>("pt_ph", "p_{T}^{#ph} [GeV/c]", 40, 0, 200);
-  // book<TH1F>("eta_ph", "#eta^{#ph}", 40, -2.1, 2.1);
-  //book<TH1F>("reliso_ph", "#ph rel. Iso", 40, 0, 0.5);
 
   // primary vertices
   book<TH1F>("N_pv", "N^{PV}", 50, 0, 50);
@@ -79,14 +76,14 @@ void offlineObjectsHists::fill(const Event & event){
       //hist("reliso_mu")->Fill(thismu.relIso(), weight);
   }
 
-  //fill e
-  int Nelectrons = event.electrons->size();
-  hist("N_e")->Fill(Nelectrons, weight);
-  for (const Electron & thisE : *event.electrons){
-      hist("pt_e")->Fill(thisE.pt(), weight);
-      hist("eta_e")->Fill(thisE.eta(), weight);
-      //hist("reliso_e")->Fill(thisE.relIso(), weight);
-  }
+  // //fill e
+  // int Nelectrons = event.electrons->size();
+  // hist("N_e")->Fill(Nelectrons, weight);
+  // for (const Electron & thisE : *event.electrons){
+  //     hist("pt_e")->Fill(thisE.pt(), weight);
+  //     hist("eta_e")->Fill(thisE.eta(), weight);
+  //     //hist("reliso_e")->Fill(thisE.relIso(), weight);
+  // }
 
   int Npvs = event.pvs->size();
   hist("N_pv")->Fill(Npvs, weight);

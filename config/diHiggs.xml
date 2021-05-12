@@ -41,7 +41,7 @@
 
 <!--
 <ConfigParse NEventsBreak="0" LastBreak="0" FileSplit="20" AutoResubmit="100"/>
-<ConfigSGE RAM="2" DISK="2" Mail="ihor.komarov@studium.uni-hamburg.de" Notification="as" Workdir="diHiggs"/>
+<ConfigSGE RAM="2" DISK="2" Mail="ihor.komarov@studium.uni-hamburg.de" Notification="as" Workdir="MuonOnly_10GeVJet"/>
 -->
 
 <!-- OutputLevel controls which messages are printed; set to VERBOSE or DEBUG for more verbosity, to WARNING or ERROR for less -->
@@ -49,7 +49,7 @@
     <Library Name="libSUHH2diHiggs"/>
     <Package Name="SUHH2diHiggs.par" />
 
-   <Cycle Name="uhh2::AnalysisModuleRunner" OutputDirectory="/nfs/dust/cms/user/komarovi/main_102v2/CMSSW_10_2_17/src/UHH2/diHiggs/config/" PostFix="" TargetLumi="1" >
+   <Cycle Name="uhh2::AnalysisModuleRunner" OutputDirectory="/nfs/dust/cms/user/komarovi/processedData/offline/MuonOnly_10GeVJet/" PostFix="" TargetLumi="1" >
    <!-- <Cycle Name="uhh2::AnalysisModuleRunner"  RunMode="PROOF" ProofServer="lite://"  ProofWorkDir="/nfs/dust/cms/user/ottjoc/proof-wd/" ProofNodes="2" OutputDirectory="./" PostFix="" TargetLumi="1" >  -->
 
         <!-- Verion attribute must have year in it, same as used in ntuple config, e.g. 2018, 2016v3, etc -->
@@ -117,17 +117,16 @@
 			&WJetsToLNu_HT_2500toInf;
 			<InputTree Name="AnalysisTree" />
 			<OutputTree Name="AnalysisTree" />
-		</InputData>   
+		</InputData> 
 
-        <!-- SingleTop -->
+       
 		<InputData Lumi="5992141.808" NEventsMax="&NEVT;" Type="MC" Version="SingleTop_t-channel_top_2018v1" Cacheable="&b_Cacheable;">
 			&SingleTop_t-channel_top;
 			<InputTree Name="AnalysisTree" />
 			<OutputTree Name="AnalysisTree" />
 		</InputData> 
 
-        <!-- QCD -->
-
+        
         <InputData Lumi="286.4995178" NEventsMax="&NEVT;" Type="MC" Version="QCD_Pt_170to300_2018v1" Cacheable="&b_Cacheable;">
 			&QCD_Pt_170to300;
 			<InputTree Name="AnalysisTree" />

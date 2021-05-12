@@ -9,7 +9,6 @@
 #include "UHH2/common/include/ElectronHists.h"
 #include "UHH2/common/include/MuonHists.h"
 #include "UHH2/diHiggs/include/offlineObjectsHists.h"
-#include "UHH2/diHiggs/include/L1MuonSeedsHists.h"
 //Selections
 #include "UHH2/common/include/NSelections.h"
 #include "UHH2/diHiggs/include/diHiggsSelections.h"
@@ -33,22 +32,17 @@ private:
     
     std::unique_ptr<CommonModules> common;
     std::unique_ptr<Hists> noCuts;
-    std::unique_ptr<Hists> n1Electron, n1Muon;
-    std::unique_ptr<Hists> n3jet_singleE,n3jet_singleM, n4jet_singleE, n4jet_singleM;
-    std::unique_ptr<Hists> n1B_singleE, n1B_singleM, n2B_singleE, n2B_singleM;
+    std::unique_ptr<Hists> n1Muon;
+    std::unique_ptr<Hists> n3jet_singleM, n4jet_singleM;
 
     // Define Selections
-    std::unique_ptr<Selection> electron_sel, muon_sel, noElectron_sel, noMuon_sel;
+    std::unique_ptr<Selection> muon_sel, noElectron_sel;
     std::unique_ptr<Selection> n3jet_sel, n4jet_sel;
-    std::unique_ptr<Selection> n1B_sel, n2B_sel;
 
     ElectronId Ele_Id;
     MuonId Mu_Id;
     // TauId Tau_Id;
     JetId Jet_Id;
-
-    BTag::algo btag_algo;
-    BTag::wp wp_btag_medium;
 };
 
 
@@ -80,11 +74,6 @@ diHiggsModule::diHiggsModule(Context & ctx){
     Mu_Id = AndId<Muon>(MuonID(Muon::CutBasedIdTight), PtEtaCut(ptCut, etaCut), MuonID(Muon::PFIsoTight));
     Jet_Id = AndId<Jet>(jet_pfid, PtEtaCut(ptCut, etaCut));
 
-    // BTagging
-    btag_algo = BTag::DEEPJET;
-    wp_btag_medium = BTag::WP_MEDIUM;
-
-    JetId DeepjetMedium = BTag(btag_algo, wp_btag_medium);
 
     // set common
     common.reset(new CommonModules());
@@ -96,35 +85,23 @@ diHiggsModule::diHiggsModule(Context & ctx){
     
     // 2. set up selections
     //lepton selections
-    electron_sel.reset(new NElectronSelection(1, 1));
     muon_sel.reset(new NMuonSelection(1, 1));
-    noMuon_sel.reset(new NMuonSelection(0, 0));
     noElectron_sel.reset(new NElectronSelection(0, 0));
     // jet selections
     n3jet_sel.reset(new NJetSelection(3, -1));
     n4jet_sel.reset(new NJetSelection(4, -1));
-    n1B_sel.reset(new NJetSelection(1,-1, DeepjetMedium));
-    n2B_sel.reset(new NJetSelection(2,-1, DeepjetMedium));
   
 
 
     // 3. Set up Hists classes:
     noCuts.reset(new offlineObjectsHists(ctx, "NoCuts"));
 
-    n1Electron.reset(new offlineObjectsHists(ctx, "1Electron"));
     n1Muon.reset(new offlineObjectsHists(ctx, "1Muon"));
 
-    n3jet_singleE.reset(new offlineObjectsHists(ctx, "3Jet_1E"));
     n3jet_singleM.reset(new offlineObjectsHists(ctx, "3Jet_1M"));
 
-    n4jet_singleE.reset(new offlineObjectsHists(ctx, "4Jet_1E"));
     n4jet_singleM.reset(new offlineObjectsHists(ctx, "4Jet_1M"));
 
-    n1B_singleE.reset(new offlineObjectsHists(ctx, "1B_1E"));
-    n1B_singleM.reset(new offlineObjectsHists(ctx, "1B_1M"));
-
-    n2B_singleE.reset(new offlineObjectsHists(ctx, "2B_1E"));
-    n2B_singleM.reset(new offlineObjectsHists(ctx, "2B_1M"));
 }
 
 
@@ -151,45 +128,19 @@ bool diHiggsModule::process(Event & event) {
     noCuts->fill(event);
 
     // event ID ausgeben
-    bool electronCategory = electron_sel->passes(event) && noMuon_sel->passes(event); // N_e == 1, N_mu == 0
     bool muonCategory = muon_sel->passes(event) && noElectron_sel->passes(event); // N_e == 0, N_mu == 1
-    bool singleLeptonCategory = electronCategory || muonCategory;
 
-    if(!singleLeptonCategory) return false; 
-
-    if(electronCategory)
-        n1Electron->fill(event);
-    else if(muonCategory)
+    if(!muonCategory) return false; 
+        
         n1Muon->fill(event);
 
     if(!n3jet_sel->passes(event)) return false;
 
-    if(electronCategory)
-        n3jet_singleE->fill(event);
-    else if(muonCategory)
         n3jet_singleM->fill(event);
-
 
     if(!n4jet_sel->passes(event)) return false;
 
-    if(electronCategory)
-        n4jet_singleE->fill(event);
-    else if(muonCategory)
-        n4jet_singleM->fill(event);  
-
-    if(!n1B_sel->passes(event)) return false;
-
-    if(electronCategory)
-        n1B_singleE->fill(event);
-    else if(muonCategory)
-        n1B_singleM->fill(event);  
-    
-    if(!n2B_sel->passes(event)) return false;
-
-    if(electronCategory)
-        n2B_singleE->fill(event);
-    else if(muonCategory)
-        n2B_singleM->fill(event);  
+        n4jet_singleM->fill(event);
 
     return true;
 }
