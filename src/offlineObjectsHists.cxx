@@ -10,7 +10,7 @@ using namespace uhh2;
 using namespace uhh2examples;
 
 offlineObjectsHists::offlineObjectsHists(Context & ctx, const string & dirname): Hists(ctx, dirname){
-  int etaRange = 4;
+  int etaRange = 2.4;
   int ptMin = 0;
   int ptMax = 2000;
   book<TH1F>("N_jets", "N_{jets}", 20, 0, 20);  

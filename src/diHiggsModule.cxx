@@ -65,8 +65,8 @@ diHiggsModule::diHiggsModule(Context & ctx){
     /// DEFINE Min Pt
     int ptCut_Mu = 24;
     int ptCut_Jet = 30;
-    int ptCut_El = 10;
-    double etaCut = 4;
+    int ptCut_El = 0;
+    double etaCut = 2.4;
     
     //Year year = extract_year(ctx);
 
@@ -88,7 +88,7 @@ diHiggsModule::diHiggsModule(Context & ctx){
     
     // 2. set up selections
     //lepton selections
-    muon_sel.reset(new NMuonSelection(1, 1));
+    muon_sel.reset(new NMuonSelection(1, -1));
     noElectron_sel.reset(new NElectronSelection(0, 0));
     // jet selections
     n3jet_sel.reset(new NJetSelection(3, -1));
@@ -131,7 +131,7 @@ bool diHiggsModule::process(Event & event) {
     noCuts->fill(event);
 
     // event ID ausgeben
-    bool muonCategory = muon_sel->passes(event) && noElectron_sel->passes(event); // N_e == 0, N_mu == 1
+    bool muonCategory = muon_sel->passes(event);// && noElectron_sel->passes(event); // N_e == 0, N_mu == 1
 
     if(!muonCategory) return false; 
         

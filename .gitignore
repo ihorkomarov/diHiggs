@@ -4,3 +4,4 @@ config/*
 !config/*.xml
 !config/*.dtd
 *.sh
+.vscode/
