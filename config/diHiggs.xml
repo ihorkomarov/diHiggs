@@ -41,7 +41,7 @@
 
 <!--
 <ConfigParse NEventsBreak="0" LastBreak="0" FileSplit="20" AutoResubmit="100"/>
-<ConfigSGE RAM="2" DISK="2" Mail="ihor.komarov@studium.uni-hamburg.de" Notification="as" Workdir="MuonOnly24GeV_30GeVJet"/>
+<ConfigSGE RAM="2" DISK="2" Mail="ihor.komarov@studium.uni-hamburg.de" Notification="as" Workdir="MuonOnly10GeV_10GeVJet"/>
 -->
 
 <!-- OutputLevel controls which messages are printed; set to VERBOSE or DEBUG for more verbosity, to WARNING or ERROR for less -->
@@ -49,7 +49,7 @@
     <Library Name="libSUHH2diHiggs"/>
     <Package Name="SUHH2diHiggs.par" />
 
-   <Cycle Name="uhh2::AnalysisModuleRunner" OutputDirectory="/nfs/dust/cms/user/komarovi/processedData/offline/MuonOnly24GeV_30GeVJet/" PostFix="" TargetLumi="1" >
+   <Cycle Name="uhh2::AnalysisModuleRunner" OutputDirectory="/nfs/dust/cms/user/komarovi/processedData/offline/MuonOnly10GeV_10GeVJet/" PostFix="" TargetLumi="1" >
    <!-- <Cycle Name="uhh2::AnalysisModuleRunner"  RunMode="PROOF" ProofServer="lite://"  ProofWorkDir="/nfs/dust/cms/user/ottjoc/proof-wd/" ProofNodes="2" OutputDirectory="./" PostFix="" TargetLumi="1" >  -->
 
         <!-- Verion attribute must have year in it, same as used in ntuple config, e.g. 2018, 2016v3, etc -->
@@ -63,7 +63,6 @@
         </InputData>
 
 <!-- BACKGROUND -->
-
 
         <InputData Lumi="83703610.93" NEventsMax="&NEVT;" Type="MC" Version="TTbar_2018v1" Cacheable="&b_Cacheable;">
 			&TTbar;

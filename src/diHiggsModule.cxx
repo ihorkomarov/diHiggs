@@ -36,7 +36,7 @@ private:
     std::unique_ptr<Hists> n3jet_singleM, n4jet_singleM;
 
     // Define Selections
-    std::unique_ptr<Selection> muon_sel, noElectron_sel;
+    std::unique_ptr<Selection> muon_sel;
     std::unique_ptr<Selection> n3jet_sel, n4jet_sel;
 
     ElectronId Ele_Id;
@@ -89,7 +89,6 @@ diHiggsModule::diHiggsModule(Context & ctx){
     // 2. set up selections
     //lepton selections
     muon_sel.reset(new NMuonSelection(1, -1));
-    noElectron_sel.reset(new NElectronSelection(0, 0));
     // jet selections
     n3jet_sel.reset(new NJetSelection(3, -1));
     n4jet_sel.reset(new NJetSelection(4, -1));
@@ -131,7 +130,7 @@ bool diHiggsModule::process(Event & event) {
     noCuts->fill(event);
 
     // event ID ausgeben
-    bool muonCategory = muon_sel->passes(event);// && noElectron_sel->passes(event); // N_e == 0, N_mu == 1
+    bool muonCategory = muon_sel->passes(event);
 
     if(!muonCategory) return false; 
         
