@@ -63,8 +63,8 @@ diHiggsModule::diHiggsModule(Context & ctx){
     }
     
     /// DEFINE Min Pt
-    int ptCut_Mu = 24;
-    int ptCut_Jet = 30;
+    int ptCut_Mu = 10;
+    int ptCut_Jet = 10;
     int ptCut_El = 0;
     double etaCut = 2.4;
     

@@ -64,8 +64,8 @@ HHonlineSelectionModule::HHonlineSelectionModule(Context & ctx){
         cout << " " << kv.first << " = " << kv.second << endl;
     }
      
-    double ptCutMuon = 24.0;
-    double ptCutJet = 30;
+    double ptCutMuon = 10;
+    double ptCutJet = 10;
 
     double etaCut = 2.4;
     
