@@ -144,7 +144,7 @@ bool diHiggsModule::process(Event & event) {
 
         n4jet_singleM->fill(event);
 
-    return true;
+    return false;
 }
 
 // as we want to run the ExampleCycleNew directly with AnalysisModuleRunner,
