@@ -11,54 +11,43 @@ using namespace uhh2examples;
 
 HHonlineSelectionHists::HHonlineSelectionHists(Context & ctx, const string & dirname): Hists(ctx, dirname){
 
-  int etaRange = 2.4;
-  int phiRange = 180;
+  int etaRange = 4;
   int ptMin = 0;
   int ptMax = 2000;
-  int errorRange = 200;
-
   n_L1Jets = book<TH1F>("N_L1jets", "N_{jets}", 20, 0, 20);  
   n_Jets = book<TH1F>("N_jets", "N_{jets}", 20, 0, 20); 
 
  
-
-  pt_jet1  = book<TH1F>("pt_jet1", "p_{T}^{jet 1}", 40, ptMin, ptMax);
   eta_jet1 = book<TH1F>("eta_jet1", "#eta^{jet 1}", 40, -etaRange, etaRange);
-  phi_jet1 = book<TH1F>("eta_jet1", "#eta^{jet 1}", 40, -phiRange, phiRange);
-
+  pt_jet1  = book<TH1F>("pt_jet1", "p_{T}^{jet 1}", 40, ptMin, ptMax);
   eta_jet2 = book<TH1F>("eta_jet2", "#eta^{jet 2}", 40, -etaRange, etaRange);
   eta_jet3 = book<TH1F>("eta_jet3", "#eta^{jet 3}", 40, -etaRange, etaRange);
   eta_jet4 = book<TH1F>("eta_jet4", "#eta^{jet 4}", 40, -etaRange, etaRange);
 
 
-  
-  pt_L1jet1  = book<TH1F>("pt_L1jet1", "p_{T}^{jet 1}", 40, ptMin, ptMax);
   eta_L1jet1 = book<TH1F>("eta_L1jet1", "#eta^{jet 1}", 40, -etaRange, etaRange);
-  phi_L1jet1 = book<TH1F>("eta_L1jet1", "#eta^{jet 1}", 40, -phiRange, phiRange);
-
+  pt_L1jet1  = book<TH1F>("pt_L1jet1", "p_{T}^{jet 1}", 40, ptMin, ptMax);
   eta_L1jet2 = book<TH1F>("eta_L1jet2", "#eta^{jet 2}", 40, -etaRange, etaRange);
   eta_L1jet3 = book<TH1F>("eta_L1jet3", "#eta^{jet 3}", 40, -etaRange, etaRange);
   eta_L1jet4 = book<TH1F>("eta_L1jet4", "#eta^{jet 4}", 40, -etaRange, etaRange);
 
-
+  int errorRange = 200;
 
   relative_error_Muon = book<TH1F>("relative_error_mu", "#delta_{#mu}", 40, -errorRange, errorRange);
   relative_error_Jet = book<TH1F>("relative_error_jet", "#delta_{jet}", 40, -errorRange, errorRange);
 
   relative_error_Muon_2d = book<TH2D>("relative_error_mu_2d", "leading muon p_T", 40, 0, 300, 40, 0, 300);
-  relative_error_Jet_2d = book<TH2D>("relative_error_jet_2d", "leading jet p_T", 40, 0, 800, 40, 0, 800);
+  relative_error_Jet_2d = book<TH2D>("relative_error_jet_2d", "leading jet p_T", 40, 0, 300, 40, 0, 300);
 
   // leptons
   //reco_mu
   n_Mu = book<TH1F>("N_mu", "N^{#mu}", 10, 0, 10);
   pt_Mu = book<TH1F>("pt_mu", "p_{T}^{#mu} [GeV/c]", 40, ptMin, ptMax);
   eta_Mu = book<TH1F>("eta_mu", "#eta^{#mu}", 40, -etaRange, etaRange);
-  phi_Mu = book<TH1F>("eta_mu", "#eta^{#mu}", 40, -phiRange, phiRange);
   //L1_mu
   n_L1mu = book<TH1F>("N_L1mu", "N^{#mu}", 10, 0, 10);
   pt_L1mu = book<TH1F>("pt_L1mu", "p_{T}^{#mu} [GeV/c]", 40, ptMin, ptMax);
   eta_L1mu = book<TH1F>("eta_L1mu", "#eta^{#mu}", 40, -etaRange, etaRange);
-  phi_L1mu = book<TH1F>("eta_L1mu", "#eta^{#mu}", 40, -phiRange, phiRange);
   //book<TH1F>("reliso_mu", "#mu rel. Iso", 40, 0, 0.5);
   //reco_electrons
 
@@ -132,7 +121,6 @@ void HHonlineSelectionHists::fill(const Event & event){
   if(NL1jets>=1){
     eta_L1jet1->Fill(l1jets->at(0).eta(), weight);
     pt_L1jet1->Fill(l1jets->at(0).pt(), weight);
-    phi_L1jet1->Fill(l1jets->at(0).phi(), weight);
   }
   if(NL1jets>=2){
     eta_L1jet2->Fill(l1jets->at(1).eta(), weight);
@@ -152,7 +140,6 @@ void HHonlineSelectionHists::fill(const Event & event){
   if(Njets>=1){
     eta_jet1->Fill(jets->at(0).eta(), weight);
     pt_jet1->Fill(jets->at(0).pt(), weight);
-    phi_jet1->Fill(jets->at(0).phi(), weight);
   }
   if(Njets>=2){
     eta_jet2->Fill(jets->at(1).eta(), weight);
@@ -172,7 +159,6 @@ void HHonlineSelectionHists::fill(const Event & event){
   for (const L1Muon & thisL1mu : *l1muons){
       pt_L1mu->Fill(thisL1mu.pt(), weight);
       eta_L1mu->Fill(thisL1mu.eta(), weight);
-      phi_L1mu->Fill(thisL1mu.phi(), weight);
   }
 
   //fill Muon Collection
@@ -183,7 +169,6 @@ void HHonlineSelectionHists::fill(const Event & event){
     for (const Muon & thismu : *muons){
         pt_Mu->Fill(thismu.pt(), weight);
         eta_Mu->Fill(thismu.eta(), weight);
-        phi_Mu->Fill(thismu.phi(), weight);
     }
 
  
