@@ -18,7 +18,7 @@
             You must use "AnalysisTree" as Name otherwise it will be empty. -->
             <OutputTree Name="AnalysisTree" />
         </InputData>
-
+<!-- 
          <InputData Lumi="1" NEventsMax="-1;" Type="MC" Version="TTbar_2018v1" Cacheable="False">
 			<In FileName="/nfs/dust/cms/user/komarovi/processedData/NtupleOutput/TTBar_10000Events.root" Lumi="0.0"/>
 			<InputTree Name="AnalysisTree" />
@@ -41,7 +41,7 @@
 			<In FileName="/nfs/dust/cms/user/komarovi/processedData/NtupleOutput/FullQCD_2018v1.root" Lumi="0.0"/>
 			<InputTree Name="AnalysisTree" />
 			<OutputTree Name="AnalysisTree" />
-		</InputData>
+		</InputData> -->
 
         <UserConfig>
             <!-- define which collections to read from the input. Only specify what you need to save I/O time -->
@@ -54,6 +54,7 @@
             <Item Name="L1EGseedsCollection" Value="L1EGamma_seeds"/>
             <Item Name="L1MseedsCollection" Value="L1Muon_seeds"/>
             <Item Name="L1JseedsCollection" Value="L1Jet_seeds"/>
+            <Item Name="GenParticleCollection" Value="GenParticles" />
             <!-- The list of available collections to read in corresponds to the pointer members in event. The 'Name's to use here in the configuration are:
 
                  PrimaryVertexCollection

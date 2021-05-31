@@ -54,15 +54,15 @@ private:
 
 HHonlineSelectionModule::HHonlineSelectionModule(Context & ctx){
 
-    cout << "Hello World from HHonlineSelectionModule!" << endl;
+    // cout << "Hello World from HHonlineSelectionModule!" << endl;
     
-    // If needed, access the configuration of the module here, e.g.:
-    string testvalue = ctx.get("TestKey", "<not set>");
-    cout << "TestKey in the configuration was: " << testvalue << endl;
+    // // If needed, access the configuration of the module here, e.g.:
+    // string testvalue = ctx.get("TestKey", "<not set>");
+    // cout << "TestKey in the configuration was: " << testvalue << endl;
     
-    for(auto & kv : ctx.get_all()){
-        cout << " " << kv.first << " = " << kv.second << endl;
-    }
+    // for(auto & kv : ctx.get_all()){
+    //     cout << " " << kv.first << " = " << kv.second << endl;
+    // }
      
     double ptCutMuon = 10;
     double ptCutJet = 10;
@@ -121,7 +121,8 @@ bool HHonlineSelectionModule::process(Event & event) {
     // (e.g. Golden JSON, MET filters), and therefore user should return early
     bool commonResult = common->process(event);
     if (!commonResult) return false;
-    
+
+    cout << "Hello World from diHiggsModule!" << endl;
     noCuts->fill(event);
 
     bool l1MuonCategory = l1muon_sel->passes(event);

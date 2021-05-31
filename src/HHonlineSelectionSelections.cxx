@@ -1,4 +1,4 @@
-#include "UHH2/HHonlineSelection/include/HHonlineSelectionSelections.h"
+#include "UHH2/diHiggs/include/HHonlineSelectionSelections.h"
 #include "UHH2/core/include/Event.h"
 #include "UHH2/core/include/Particle.h"
 

@@ -1,4 +1,4 @@
-#include "UHH2/HHgenSelection/include/HHgenSelectionSelections.h"
+#include "UHH2/diHiggs/include/HHgenSelectionSelections.h"
 #include "UHH2/core/include/Event.h"
 
 #include <stdexcept>

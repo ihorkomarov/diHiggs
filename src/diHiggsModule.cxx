@@ -126,6 +126,7 @@ bool diHiggsModule::process(Event & event) {
 
     // 2. test selections and fill histograms
 
+    cout << "Hello World from diHiggsModule!" << endl;
     noCuts->fill(event);
 
     // event ID ausgeben
@@ -143,7 +144,7 @@ bool diHiggsModule::process(Event & event) {
 
         n4jet_singleM->fill(event);
 
-    return false;
+    return true;
 }
 
 // as we want to run the ExampleCycleNew directly with AnalysisModuleRunner,
