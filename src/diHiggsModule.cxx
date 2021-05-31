@@ -6,9 +6,8 @@
 #include "UHH2/common/include/CommonModules.h"
 #include "UHH2/common/include/CleaningModules.h"
 //hists
-#include "UHH2/common/include/ElectronHists.h"
-#include "UHH2/common/include/MuonHists.h"
-#include "UHH2/diHiggs/include/offlineObjectsHists.h"
+#include "UHH2/diHiggs/include/DiHiggsHists.h"
+
 //Selections
 #include "UHH2/common/include/NSelections.h"
 #include "UHH2/diHiggs/include/diHiggsSelections.h"
@@ -96,13 +95,13 @@ diHiggsModule::diHiggsModule(Context & ctx){
 
 
     // 3. Set up Hists classes:
-    noCuts.reset(new offlineObjectsHists(ctx, "NoCuts"));
+    noCuts.reset(new DiHiggsHists(ctx, "NoCuts"));
 
-    n1Muon.reset(new offlineObjectsHists(ctx, "1Muon"));
+    n1Muon.reset(new DiHiggsHists(ctx, "1Muon"));
 
-    n3jet_singleM.reset(new offlineObjectsHists(ctx, "3Jet_1M"));
+    n3jet_singleM.reset(new DiHiggsHists(ctx, "3Jet_1M"));
 
-    n4jet_singleM.reset(new offlineObjectsHists(ctx, "4Jet_1M"));
+    n4jet_singleM.reset(new DiHiggsHists(ctx, "4Jet_1M"));
 
 }
 

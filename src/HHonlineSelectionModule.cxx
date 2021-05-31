@@ -7,8 +7,8 @@
 #include "UHH2/common/include/CleaningModules.h"
 #include "UHH2/common/include/ElectronHists.h"
 #include "UHH2/common/include/NSelections.h"
-#include "UHH2/HHonlineSelection/include/HHonlineSelectionSelections.h"
-#include "UHH2/HHonlineSelection/include/HHonlineSelectionHists.h"
+#include "UHH2/diHiggs/include/HHonlineSelectionSelections.h"
+#include "UHH2/diHiggs/include/DiHiggsHists.h"
 
 //IDs
 #include "UHH2/common/include/ElectronIds.h"
@@ -95,15 +95,14 @@ HHonlineSelectionModule::HHonlineSelectionModule(Context & ctx){
     n4L1jet_sel.reset(new NL1JetSelection(4, -1,ptCutJet));
 
     // 3. Set up Hists classes:
-    noCuts.reset(new HHonlineSelectionHists(ctx, "NoCuts"));
+    noCuts.reset(new DiHiggsHists(ctx, "NoCuts"));
 
-    n1L1Muon.reset(new HHonlineSelectionHists(ctx, "1L1Muon"));
+    n1L1Muon.reset(new DiHiggsHists(ctx, "1L1Muon"));
 
-    n3L1jet_singleL1M.reset(new HHonlineSelectionHists(ctx, "3Jet_L1M"));
+    n3L1jet_singleL1M.reset(new DiHiggsHists(ctx, "3Jet_L1M"));
 
-    n4L1jet_singleL1M.reset(new HHonlineSelectionHists(ctx, "4Jet_L1M"));
+    n4L1jet_singleL1M.reset(new DiHiggsHists(ctx, "4Jet_L1M"));
 }
-
 
 bool HHonlineSelectionModule::process(Event & event) {
     // This is the main procedure, called for each event. Typically,

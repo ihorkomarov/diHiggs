@@ -1,4 +1,4 @@
-#include "UHH2/HHonlineSelection/include/HHonlineSelectionHists.h"
+#include "UHH2/diHiggs/include/DiHiggsHists.h"
 #include "UHH2/core/include/Event.h"
 
 #include "TH1F.h"
@@ -9,7 +9,7 @@ using namespace std;
 using namespace uhh2;
 using namespace uhh2examples;
 
-HHonlineSelectionHists::HHonlineSelectionHists(Context & ctx, const string & dirname): Hists(ctx, dirname){
+DiHiggsHists::DiHiggsHists(Context & ctx, const string & dirname): Hists(ctx, dirname){
 
   int etaRange = 4;
   int ptMin = 0;
@@ -31,13 +31,13 @@ HHonlineSelectionHists::HHonlineSelectionHists(Context & ctx, const string & dir
   eta_L1jet3 = book<TH1F>("eta_L1jet3", "#eta^{jet 3}", 40, -etaRange, etaRange);
   eta_L1jet4 = book<TH1F>("eta_L1jet4", "#eta^{jet 4}", 40, -etaRange, etaRange);
 
-  int errorRange = 200;
+  int errorRange = 100;
 
   relative_error_Muon = book<TH1F>("relative_error_mu", "#delta_{#mu}", 40, -errorRange, errorRange);
   relative_error_Jet = book<TH1F>("relative_error_jet", "#delta_{jet}", 40, -errorRange, errorRange);
 
   relative_error_Muon_2d = book<TH2D>("relative_error_mu_2d", "leading muon p_T", 40, 0, 300, 40, 0, 300);
-  relative_error_Jet_2d = book<TH2D>("relative_error_jet_2d", "leading jet p_T", 40, 0, 300, 40, 0, 300);
+  relative_error_Jet_2d = book<TH2D>("relative_error_jet_2d", "leading jet p_T", 40, 0, 300, 40, 0, 800);
 
   // leptons
   //reco_mu
@@ -66,7 +66,7 @@ HHonlineSelectionHists::HHonlineSelectionHists(Context & ctx, const string & dir
 }
 
 
-void HHonlineSelectionHists::fill(const Event & event){
+void DiHiggsHists::fill(const Event & event){
   // fill the histograms. Please note the comments in the header file:
   // 'hist' is used here a lot for simplicity, but it will be rather
   // slow when you have many histograms; therefore, better
@@ -178,4 +178,4 @@ void HHonlineSelectionHists::fill(const Event & event){
   hist("N_pv")->Fill(Npvs, weight);
 }
 
-HHonlineSelectionHists::~HHonlineSelectionHists(){}
+DiHiggsHists::~DiHiggsHists(){}
