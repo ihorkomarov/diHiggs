@@ -91,7 +91,7 @@ void DiHiggsHists::fill(const Event & event){
 
 
 
-  std::vector <GenParticle> daughterHiggs;
+  std::vector <GenParticle> nHiggs;
   std::vector <GenParticle>* allParticles = event.genparticles;
 
   double weight = event.weight;
@@ -102,31 +102,22 @@ void DiHiggsHists::fill(const Event & event){
   std::vector<Jet>* jets = event.jets;
   std::vector<Muon>* muons = event.muons;
 
-  std::cout<<"Test" << std::endl;
-  std::cout<<allParticles->size() << std::endl;
-
   //Gen Matching first 
 
   for(const GenParticle & gp : *allParticles){
-    std::cout<<gp.pdgId() << std::endl;
       if(gp.pdgId() == 25){
-        std::cout<<"Found H" << std::endl;
-        if(allParticles->at(gp.mother1()).pdgId() == 25 )
-        {
-          daughterHiggs.push_back(gp);
-        }
+          nHiggs.push_back(gp);
       }
   }
 
-    float mHH = inv_mass(daughterHiggs.at(0).v4()+daughterHiggs.at(1).v4());
+if (!nHiggs.empty()){
+  float mHH = inv_mass(nHiggs.at(0).v4()+nHiggs.at(1).v4());
 
-  if(daughterHiggs.size() == 2 && !l1muons->empty()){
-    std::cout<<"Found H to HH" << std::endl;
+  if(nHiggs.size() == 2 && !l1muons->empty()){
     m_HH->Fill(mHH, weight);
     m_HH_2d->Fill(mHH,l1muons->at(0).pt());
   }
-
-
+}
   if (!l1muons->empty() && !muons->empty()){
 
     double PtOfLeadingMuon = muons->at(0).pt();
