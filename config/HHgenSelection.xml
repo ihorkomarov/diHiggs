@@ -3,8 +3,8 @@
 
 <!-- OutputLevel controls which messages are printed; set to VERBOSE or DEBUG for more verbosity, to WARNING or ERROR for less -->
 <JobConfiguration JobName="ExampleCycleJob" OutputLevel="INFO">
-    <Library Name="libSUHH2HHgenSelection"/>
-    <Package Name="SUHH2HHgenSelection.par" />
+    <Library Name="libSUHH2diHiggs"/>
+    <Package Name="SUHH2diHiggs.par" />
 
    <Cycle Name="uhh2::AnalysisModuleRunner" OutputDirectory="/nfs/dust/cms/user/komarovi/processedData/NtupleOutput/" PostFix="" TargetLumi="1" >
    <!-- <Cycle Name="uhh2::AnalysisModuleRunner"  RunMode="PROOF" ProofServer="lite://"  ProofWorkDir="/nfs/dust/cms/user/ottjoc/proof-wd/" ProofNodes="2" OutputDirectory="./" PostFix="" TargetLumi="1" >  -->
