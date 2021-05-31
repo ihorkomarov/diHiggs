@@ -7,8 +7,7 @@
 #include "UHH2/common/include/CleaningModules.h"
 #include "UHH2/common/include/ElectronHists.h"
 #include "UHH2/common/include/NSelections.h"
-#include "UHH2/HHgenSelection/include/HHgenSelectionSelections.h"
-#include "UHH2/HHgenSelection/include/HHgenSelectionHists.h"
+#include "UHH2/diHiggs/include/HHgenSelectionSelections.h"
 
 using namespace std;
 using namespace uhh2;

@@ -9,6 +9,15 @@ using namespace std;
 using namespace uhh2;
 using namespace uhh2examples;
 
+namespace {
+
+  float inv_mass(const LorentzVector & p4)
+        { 
+          return p4.isTimelike() ? p4.mass() : -sqrt(-p4.mass2());
+        }
+
+}
+
 DiHiggsHists::DiHiggsHists(Context & ctx, const string & dirname): Hists(ctx, dirname){
 
   int etaRange = 4;
@@ -54,6 +63,12 @@ DiHiggsHists::DiHiggsHists(Context & ctx, const string & dirname): Hists(ctx, di
   leading_L1Mu_pt = book<TH1F>("leading_L1mu_pt", "p_{T}^{#L1mu} [GeV/c]", 40, ptMin, ptMax);
   leading_Mu_pt = book<TH1F>("leading_Mu_pt", "p_{T}^{#mu} [GeV/c]", 40, ptMin, ptMax);
 
+
+  //mHH plots 
+
+  m_HH = book<TH1F>("m_HH", "mHH", 40, 200, 800);
+  m_HH_2d = book<TH2D>("mHH_leading_mu", "mHH to leading L1muon p_T", 40, 200, 800, 40, 0, 300);
+
   //book<TH1F>("reliso_e", "#e rel. Iso", 40, 0, 0.5);
   //ph
   // book<TH1F>("N_ph", "N^{#ph}", 10, 0, 10);
@@ -73,6 +88,12 @@ void DiHiggsHists::fill(const Event & event){
   // use histogram pointers as members as in 'UHH2/common/include/ElectronHists.h'
   
   // Don't forget to always use the weight when filling.
+
+
+
+  std::vector <GenParticle> daughterHiggs;
+  std::vector <GenParticle>* allParticles = event.genparticles;
+
   double weight = event.weight;
   
   std::vector<L1Jet>* l1jets = event.L1J_seeds;
@@ -81,7 +102,29 @@ void DiHiggsHists::fill(const Event & event){
   std::vector<Jet>* jets = event.jets;
   std::vector<Muon>* muons = event.muons;
 
+  std::cout<<"Test" << std::endl;
+  std::cout<<allParticles->size() << std::endl;
 
+  //Gen Matching first 
+
+  for(const GenParticle & gp : *allParticles){
+    std::cout<<gp.pdgId() << std::endl;
+      if(gp.pdgId() == 25){
+        std::cout<<"Found H" << std::endl;
+        if(allParticles->at(gp.mother1()).pdgId() == 25 )
+        {
+          daughterHiggs.push_back(gp);
+        }
+      }
+  }
+
+    float mHH = inv_mass(daughterHiggs.at(0).v4()+daughterHiggs.at(1).v4());
+
+  if(daughterHiggs.size() == 2 && !l1muons->empty()){
+    std::cout<<"Found H to HH" << std::endl;
+    m_HH->Fill(mHH, weight);
+    m_HH_2d->Fill(mHH,l1muons->at(0).pt());
+  }
 
 
   if (!l1muons->empty() && !muons->empty()){

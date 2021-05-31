@@ -28,6 +28,9 @@ protected:
     TH1F *leading_L1Mu_pt, *leading_Mu_pt;
     TH1F *relative_error_Muon, *relative_error_Jet;
     TH2D *relative_error_Jet_2d, *relative_error_Muon_2d;
+
+    TH1F *m_HH;
+    TH2D *m_HH_2d;
 };
 
 }
