@@ -62,8 +62,9 @@
             <OutputTree Name="AnalysisTree" />
         </InputData>
 
-<!-- BACKGROUND -->
 
+<!-- BACKGROUND -->
+<!-- 
         <InputData Lumi="83703610.93" NEventsMax="&NEVT;" Type="MC" Version="TTbar_2018v1" Cacheable="&b_Cacheable;">
 			&TTbar;
 			<InputTree Name="AnalysisTree" />
@@ -185,7 +186,7 @@
 			<InputTree Name="AnalysisTree" />
 			<OutputTree Name="AnalysisTree" />
 		</InputData>
-		
+		 -->
         <UserConfig>
             <!-- define which collections to read from the input. Only specify what you need to save I/O time -->
             <Item Name="PrimaryVertexCollection" Value="offlineSlimmedPrimaryVertices" />
@@ -194,6 +195,9 @@
             <Item Name="JetCollection" Value="jetsAk4CHS" />
             <Item Name="GenJetCollection" Value="slimmedGenJets" />
             <Item Name="METName" Value="slimmedMETs" />
+			<Item Name="L1EGseedsCollection" Value="L1EGamma_seeds"/>
+            <Item Name="L1MseedsCollection" Value="L1Muon_seeds"/>
+            <Item Name="L1JseedsCollection" Value="L1Jet_seeds"/>
             <!--
             <Item Name="L1MseedsCollection" Value="L1Muon_seeds"/>
             -->
