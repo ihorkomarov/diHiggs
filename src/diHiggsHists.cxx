@@ -20,15 +20,19 @@ namespace {
 
 DiHiggsHists::DiHiggsHists(Context & ctx, const string & dirname): Hists(ctx, dirname){
 
-  int etaRange = 4;
+  int etaRange = 2.4;
   int ptMin = 0;
   int ptMax = 2000;
+  double phiRange = 3.14;
+
   n_L1Jets = book<TH1F>("N_L1jets", "N_{jets}", 20, 0, 20);  
   n_Jets = book<TH1F>("N_jets", "N_{jets}", 20, 0, 20); 
 
  
   eta_jet1 = book<TH1F>("eta_jet1", "#eta^{jet 1}", 40, -etaRange, etaRange);
   pt_jet1  = book<TH1F>("pt_jet1", "p_{T}^{jet 1}", 40, ptMin, ptMax);
+  phi_jet1 = book<TH1F>("phi_jet1","#phi^{jet1}", 40, -phiRange, phiRange);
+
   eta_jet2 = book<TH1F>("eta_jet2", "#eta^{jet 2}", 40, -etaRange, etaRange);
   eta_jet3 = book<TH1F>("eta_jet3", "#eta^{jet 3}", 40, -etaRange, etaRange);
   eta_jet4 = book<TH1F>("eta_jet4", "#eta^{jet 4}", 40, -etaRange, etaRange);
@@ -36,6 +40,7 @@ DiHiggsHists::DiHiggsHists(Context & ctx, const string & dirname): Hists(ctx, di
 
   eta_L1jet1 = book<TH1F>("eta_L1jet1", "#eta^{jet 1}", 40, -etaRange, etaRange);
   pt_L1jet1  = book<TH1F>("pt_L1jet1", "p_{T}^{jet 1}", 40, ptMin, ptMax);
+  phi_L1jet1 = book<TH1F>("phi_L1jet1","#phi^{L1jet1}", 40, -phiRange, phiRange);
   eta_L1jet2 = book<TH1F>("eta_L1jet2", "#eta^{jet 2}", 40, -etaRange, etaRange);
   eta_L1jet3 = book<TH1F>("eta_L1jet3", "#eta^{jet 3}", 40, -etaRange, etaRange);
   eta_L1jet4 = book<TH1F>("eta_L1jet4", "#eta^{jet 4}", 40, -etaRange, etaRange);
@@ -53,14 +58,17 @@ DiHiggsHists::DiHiggsHists(Context & ctx, const string & dirname): Hists(ctx, di
   n_Mu = book<TH1F>("N_mu", "N^{#mu}", 10, 0, 10);
   pt_Mu = book<TH1F>("pt_mu", "p_{T}^{#mu} [GeV/c]", 40, ptMin, ptMax);
   eta_Mu = book<TH1F>("eta_mu", "#eta^{#mu}", 40, -etaRange, etaRange);
+  phi_Mu = book<TH1F>("phi_mu","#phi^{#mu}", 40, -phiRange, phiRange);
+
   //L1_mu
   n_L1mu = book<TH1F>("N_L1mu", "N^{#mu}", 10, 0, 10);
   pt_L1mu = book<TH1F>("pt_L1mu", "p_{T}^{#mu} [GeV/c]", 40, ptMin, ptMax);
   eta_L1mu = book<TH1F>("eta_L1mu", "#eta^{#mu}", 40, -etaRange, etaRange);
+  phi_L1mu = book<TH1F>("phi_L1mu","#phi^{L1#mu}", 40, -phiRange, phiRange);
   //book<TH1F>("reliso_mu", "#mu rel. Iso", 40, 0, 0.5);
   //reco_electrons
 
-  leading_L1Mu_pt = book<TH1F>("leading_L1mu_pt", "p_{T}^{#L1mu} [GeV/c]", 40, ptMin, ptMax);
+  leading_L1Mu_pt = book<TH1F>("leading_L1mu_pt", "p_{T}^{L1#mu} [GeV/c]", 40, ptMin, ptMax);
   leading_Mu_pt = book<TH1F>("leading_Mu_pt", "p_{T}^{#mu} [GeV/c]", 40, ptMin, ptMax);
 
 
@@ -193,6 +201,7 @@ if (!nHiggs.empty()){
   for (const L1Muon & thisL1mu : *l1muons){
       pt_L1mu->Fill(thisL1mu.pt(), weight);
       eta_L1mu->Fill(thisL1mu.eta(), weight);
+      phi_L1mu->Fill(thisL1mu.phi(), weight);
   }
 
   //fill Muon Collection
@@ -203,9 +212,9 @@ if (!nHiggs.empty()){
     for (const Muon & thismu : *muons){
         pt_Mu->Fill(thismu.pt(), weight);
         eta_Mu->Fill(thismu.eta(), weight);
+        phi_Mu->Fill(thismu.phi(), weight);
     }
 
- 
 
 
   int Npvs = event.pvs->size();
