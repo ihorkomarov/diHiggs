@@ -126,7 +126,6 @@ bool diHiggsModule::process(Event & event) {
 
     // 2. test selections and fill histograms
 
-    cout << "Hello World from diHiggsModule!" << endl;
     noCuts->fill(event);
 
     // event ID ausgeben
